@@ -150,10 +150,68 @@ class CPU:
         b = operand["operand_b"]
         self.alu('ADD', a, b)
 
+    def exec_sub(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('SUB', a, b)
+
+    def exec_div(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        if b != 0:
+            self.alu('MOD', a, b)
+        else:
+            print('cannot divide by 0')
+            self.halted = True
+
+    def exec_mod(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        if b != 0:
+            self.alu('MOD', a, b)
+        else:
+            print('cannot divide by 0')
+            self.halted = True
+
     def exec_st(self, operand):
         a = operand["operand_a"]
         b = operand["operand_b"]
         self.ram_write(self.reg[b], self.reg[a])
+
+    def exec_and(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('AND', a, b)
+
+    def exec_or(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('OR', a, b)
+
+    def exec_xor(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('XOR', a, b)
+
+    def exec_not(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('NOT', a, b)
+
+    def exec_shl(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('SHL', a, b)
+
+    def exec_shr(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('SHR', a, b)
+
+    def exec_addi(self, operand):
+        a = operand["operand_a"]
+        b = operand["operand_b"]
+        self.alu('ADDI', a, b)
 
     def exec_iret(self, operand=None):
         address = {"operand_a": 0x06}
@@ -213,6 +271,8 @@ class CPU:
 
         if op == 'ADD':
             self.reg[reg_a] += self.reg[reg_b]
+        elif op == 'ADDI':
+            self.reg[reg_a] += reg_b
         elif op == 'SUB':
             self.reg[reg_a] -= self.reg[reg_b]
         elif op == 'MUL':
